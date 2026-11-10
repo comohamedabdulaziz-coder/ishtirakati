@@ -1,6 +1,6 @@
 {
-  "name": "اشتراكاتي",
-  "short_name": "اشتراكاتي",
+  "name": "Sub-Hub",
+  "short_name": "Sub-Hub",
   "description": "متابعة الاشتراكات ومواعيد التجديد وطرق الدفع",
   "start_url": "./",
   "scope": "./",
@@ -10,8 +10,8 @@
   "lang": "ar",
   "dir": "rtl",
   "icons": [
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    { "src": "subhub-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "subhub-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "subhub-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }

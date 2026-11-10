@@ -6,11 +6,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="اشتراكاتي">
+<meta name="apple-mobile-web-app-title" content="Sub-Hub">
 <meta name="theme-color" content="#131B27">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="icon-180.png">
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="subhub-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="subhub-192.png">
 <title>اشتراكاتي</title>
 <style>
 :root{
@@ -938,7 +938,7 @@ render();
 if(!storageOK) $("storeWarn").hidden=false;
 if(!isStandalone() && lsGet(LS.tip)!=="1" && /Mobi|iPhone|iPad|Android/.test(navigator.userAgent)) $("installTip").hidden=false;
 if(navigator.storage && navigator.storage.persist){ try{ navigator.storage.persist().catch(function(){}); }catch(e){} }
-if("serviceWorker" in navigator && location.protocol!=="file:"){ navigator.serviceWorker.register("sw.js").catch(function(){}); }
+if("serviceWorker" in navigator && location.protocol!=="file:"){ navigator.serviceWorker.register("sw.js").then(function(r){ try{ r.update(); }catch(e){} }).catch(function(){}); }
 })();
 </script>
 </body>

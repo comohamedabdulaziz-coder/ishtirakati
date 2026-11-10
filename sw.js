@@ -1,6 +1,6 @@
-/* اشتراكاتي — offline cache. Bump CACHE when any file changes. */
-var CACHE = "ishtirakati-v1";
-var ASSETS = ["./", "./index.html", "./manifest.webmanifest", "./icon-180.png", "./icon-192.png", "./icon-512.png"];
+/* Sub-Hub (اشتراكاتي) — offline cache. Bump CACHE when any file changes. */
+var CACHE = "subhub-v2";
+var ASSETS = ["./", "./index.html", "./manifest.webmanifest", "./subhub-180.png", "./subhub-192.png", "./subhub-512.png", "./subhub-maskable-512.png"];
 
 self.addEventListener("install", function (e) {
   e.waitUntil(
@@ -22,20 +22,21 @@ self.addEventListener("fetch", function (e) {
   var url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
 
-  // The app page: open instantly from the cache, refresh the cache in the background when online.
+  // The app page: try the network first so updates show right away;
+  // if there's no answer within 2.5 s or no internet, open the saved copy.
   if (req.mode === "navigate") {
-    e.respondWith(
-      caches.open(CACHE).then(function (c) {
-        return c.match("./index.html").then(function (cached) {
-          var net = fetch(req).then(function (res) {
-            if (res && res.ok) c.put("./index.html", res.clone());
-            return res;
-          }).catch(function () { return cached; });
-          if (cached) { e.waitUntil(net.catch(function () {})); return cached; }
-          return net;
-        });
-      })
-    );
+    e.respondWith(new Promise(function (resolve) {
+      var done = false;
+      function finish(res) { if (!done && res) { done = true; resolve(res); } }
+      var timer = setTimeout(function () { caches.match("./index.html").then(finish); }, 2500);
+      fetch(req).then(function (res) {
+        if (res && res.ok) { var copy = res.clone(); caches.open(CACHE).then(function (c) { c.put("./index.html", copy); }); }
+        clearTimeout(timer); finish(res);
+      }).catch(function () {
+        clearTimeout(timer);
+        caches.match("./index.html").then(function (c) { finish(c || Response.error()); });
+      });
+    }));
     return;
   }
 
